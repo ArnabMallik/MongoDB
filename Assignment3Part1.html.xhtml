@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>CS4433 Assignment 3 Part 1 - MongoDB</title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">CS4417 Assignment 3 Part 1 - MongoDB - UPDATED 14 March 4:30pm</h1>
+</div>
+<p>The goal of this assignment is for you to gain familiarity with MongoDB, one of the most widely-used tools for the management and querying of big, unstructured data.</p>
+<p>MongoDB uses the JSON (and related BSON) format for data, as we saw in class.<br />
+The MongoDB shell provides an interactive JavaScript interface to MongoDB.<br />
+We will provide JavaScript templates for each question so that you can see how the syntax works.</p>
+<p><a href="https://docs.mongodb.com/manual/mongo/" class="uri">https://docs.mongodb.com/manual/mongo/</a></p>
+<p>To install mongodb on your virtual machine, connect via SSH using the key you were given previously, and at the prompt run</p>
+<pre><code>sudo yum remove -y mongodb</code></pre> (Don't worry if this shows an error.)
+<pre><code>sudo curl https://www.csd.uwo.ca/~dlizotte/mongodb.repo -o /etc/yum.repos.d/mongodb-org.repo</code></pre>    
+<pre><code>sudo yum install -y mongodb-org</code></pre>
+<p>Then start your server with the following command. (This may take a minute or two.)</p>
+<pre><code>sudo service mongod start</code></pre>
+<p>You can then import our example twitter data, contained in the <code>tweets.json</code> file in your home directory, by typing</p>
+<pre><code>mongoimport --db test --collection tweets --file tweets.json</code></pre>
+<p>MongoDB organizes data into <em>databases</em> and <em>collections</em>. In this case, you will use the <em>test</em> database and the <em>tweets</em> collection of documents.</p>
+<p>MongoDB uses its own shell that allows users to run queries. To start the shell, run the following command:</p>
+<pre><code>mongo</code></pre>
+<p>Once you have started the shell, to access the <em>test</em> database, type</p>
+<pre><code>use test</code></pre>
+<p>Having done so, you can now access the <em>tweets</em> collection. For example, to print an example tweet, type</p>
+<pre><code>db.tweets.findOne()</code></pre>
+<p>Have a look at the resulting JSON object. <em>You may want to review the JSON slides in the Structure of Unstructured Data topic on OWL.</em></p>
+<p>MongoDB <em>queries</em> are written in JavaScript. They are in some ways analogous to SQL. If you know some SQL, you may find this useful:</p>
+<p><a href="https://docs.mongodb.com/v2.6/core/read-operations-introduction/" class="uri">https://docs.mongodb.com/v2.6/core/read-operations-introduction/</a></p>
+<p>The following tutorial has many examples:</p>
+<p><a href="https://docs.mongodb.com/v2.6/tutorial/query-documents/" class="uri">https://docs.mongodb.com/v2.6/tutorial/query-documents/</a></p>
+<p>The following reference page gives the different operators that can be used in queries:</p>
+<p><a href="https://docs.mongodb.com/v2.6/reference/operator/query/" class="uri">https://docs.mongodb.com/v2.6/reference/operator/query/</a></p>
+<p><em>For this assignment, we recommend you compose your queries in a local file on your computer, and copy-and-paste it into the mongo shell to try them out.</em></p>
+<p>If you find the output of your queries hard to read, you can append <code>.pretty()</code> to them to produce indented output.</p>
+<h2 id="submit-a-file-called-queries.js-that-contains-a-query-for-each-of-the-following-questions.">Submit a file called <code>queries.js</code> that contains a query for each of the following questions.</h2>
+<h3 id="pts-retrieve-all-tweets-that-are-replying-to-the-user-with-screen-name-globeandmail">1) [5pts] Retrieve all tweets that are replying to the user with screen name &quot;globeandmail&quot;</h3>
+<h3 id="pts-retrieve-all-tweets-made-by-the-user-with-screen-name-mlhealthunit">2) [5pts] Retrieve all tweets made by the user with screen name &quot;MLHealthUnit&quot;</h3>
+<h2 id="submit-a-file-called-aggregations.js-that-contains-a-query-for-each-of-the-following-questions-using-the-mongodb-aggregation-framework.">Submit a file called <code>aggregations.js</code> that contains a query for each of the following questions, using the MongoDB aggregation framework.</h2>
+<p>Aggregations in MongoDB are summaries of a collection. They are similar in concept to the operations performed in a MapReduce. MongoDB aggregations are more restrictive than MapReduce, but their implementation is very efficient. See the following documents for details.</p>
+<p><a href="https://docs.mongodb.com/v2.6/core/aggregation-introduction/" class="uri">https://docs.mongodb.com/v2.6/core/aggregation-introduction/</a> <a href="https://docs.mongodb.com/manual/reference/operator/aggregation/" class="uri">https://docs.mongodb.com/manual/reference/operator/aggregation/</a></p>
+<h3 id="pts-produce-a-list-of-users-together-with-the-total-number-of-times-they-tweeted-sorted-in-decreasing-order.">3) [10pts] Produce a list of users, together with the total number of times they tweeted, sorted in decreasing order.</h3>
+<h3 id="pts-produce-a-list-of-place-names-together-with-the-total-number-of-tweets-from-that-place-name-sorted-in-decreasing-order.">4) [10pts] Produce a list of place names, together with the total number of tweets from that place name, sorted in decreasing order.</h3>
+<h3 id="pts-produce-a-list-of-users-together-with-the-total-number-of-replies-to-that-user-sorted-in-decreasing-order.">5) [15pts] Produce a list of users, together with the total number of replies to that user, sorted in decreasing order.</h3>
+<h3 id="pts-produce-a-list-of-users-together-with-the-total-number-of-hashtags-used-by-that-user-sorted-in-decreasing-order.">6) [15pts] Produce a list of users, together with the total number of hashtags used by that user, sorted in decreasing order.</h3>
+<h2 id="submit-a-file-called-mapreduce.js-that-provides-a-mapper-reducer-and-mongodb-query-to-answer-the-question-below.">Submit a file called <code>mapreduce.js</code> that provides a mapper, reducer, and mongodb query to answer the question below.</h2>
+<p>Because the aggregation model cannot handle all types of summaries, MongoDB also provides a mechanism for MapReduce computations. The syntax is somewhat simpler than python and hadoop; here is an example:</p>
+<pre><code>function myMapper() {
+    //The mapper function is called with each document, which has the special name &#39;this&#39;
+    //Emit a key-value pair:
+    emit(this.user.screen_name, 1);
+}
+
+function myReducer(key, values) {
+    //The reducer is called once for each key, and is passed an array
+    //containing all values corresponding to that key.
+    //Produce the desired result
+    return Array.sum( values );
+}
+
+db.tweets.mapReduce(myMapper, myReducer, { query: {}, out: &quot;mroutput&quot; })
+db.mroutput.aggregate({$sort: {value: -1}})</code></pre>
+<p>Note that the output of the MapReduce has been placed in a new collection called <code>mroutput</code>, which is then queried to get the top answers. (This collection can be given any name.)</p>
+<h3 id="pts-produce-a-new-collection-that-contains-each-hashtag-used-in-the-collection-of-tweets-along-with-the-number-of-times-that-hashtag-was-used.">7) [40pts] Produce a new collection that contains each hashtag used in the collection of tweets, along with the number of times that hashtag was used.</h3>
+<p>Hint:</p>
+<p>To do something with each object in an array in javascript, we can write:</p>
+<pre><code>for(obj of arr) {
+    //Do something with obj, or obj.field, or whatever...
+}</code></pre>
+</body>
+</html>
